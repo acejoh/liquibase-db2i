@@ -58,6 +58,7 @@ public class DB2iDatabase extends DB2Database {
         return false;
     }
 
+    @Override
     protected String getAutoIncrementClause(String generationType, Boolean defaultOnNull) {
         if (StringUtil.isEmpty(generationType)) {
             return super.getAutoIncrementClause();
