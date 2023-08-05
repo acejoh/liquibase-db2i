@@ -6,6 +6,7 @@ import liquibase.database.core.DB2Database;
 import liquibase.exception.DatabaseException;
 import liquibase.executor.ExecutorService;
 import liquibase.statement.core.RawSqlStatement;
+import liquibase.util.StringUtil;
 
 public class DB2iDatabase extends DB2Database {
 
@@ -55,5 +56,14 @@ public class DB2iDatabase extends DB2Database {
             Scope.getCurrentScope().getLog(getClass()).info("Error checking for BOOLEAN type", e);
         }
         return false;
+    }
+
+    protected String getAutoIncrementClause(String generationType, Boolean defaultOnNull) {
+        if (StringUtil.isEmpty(generationType)) {
+            return super.getAutoIncrementClause();
+        } else {
+            String autoIncrementClause = "GENERATED %s AS IDENTITY";
+            return String.format(autoIncrementClause, generationType);
+        }
     }
 }
